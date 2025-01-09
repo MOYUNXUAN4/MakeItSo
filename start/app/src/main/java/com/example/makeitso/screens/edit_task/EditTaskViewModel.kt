@@ -58,6 +58,12 @@ class EditTaskViewModel @Inject constructor(
     task.value = task.value.copy(url = newValue)
   }
 
+
+
+  fun onDueDateChange(newValue: String) {
+    task.value = task.value.copy(dueDate = newValue)
+  }
+
   fun onDateChange(newValue: Long) {
     val calendar = Calendar.getInstance(TimeZone.getTimeZone(UTC))
     calendar.timeInMillis = newValue

@@ -54,14 +54,19 @@ class TasksViewModel @Inject constructor(
 
   fun onTaskActionClick(openScreen: (String) -> Unit, task: Task, action: String) {
     when (TaskActionOption.getByTitle(action)) {
-      TaskActionOption.EditTask -> openScreen("$EDIT_TASK_SCREEN?$TASK_ID={${task.id}}")
+      TaskActionOption.EditTask -> {
+        // 打开编辑任务界面，并传递任务 ID
+        openScreen("$EDIT_TASK_SCREEN?$TASK_ID={${task.id}}")
+      }
       TaskActionOption.ToggleFlag -> onFlagTaskClick(task)
       TaskActionOption.DeleteTask -> onDeleteTaskClick(task)
     }
   }
 
   private fun onFlagTaskClick(task: Task) {
-    launchCatching { storageService.update(task.copy(flag = !task.flag)) }
+    launchCatching {
+      storageService.update(task.copy(flag = !task.flag))
+    }
   }
 
   private fun onDeleteTaskClick(task: Task) {

@@ -60,6 +60,7 @@ fun EditTaskScreen(
     onTimeChange = viewModel::onTimeChange,
     onPriorityChange = viewModel::onPriorityChange,
     onFlagToggle = viewModel::onFlagToggle,
+    onDueDateChange = viewModel :: onDueDateChange,
     activity = activity
   )
 }
@@ -77,6 +78,7 @@ fun EditTaskScreenContent(
   onTimeChange: (Int, Int) -> Unit,
   onPriorityChange: (String) -> Unit,
   onFlagToggle: (String) -> Unit,
+  onDueDateChange: (String) -> Unit, // 新增字段
   activity: AppCompatActivity?
 ) {
   Column(
@@ -96,6 +98,7 @@ fun EditTaskScreenContent(
     BasicField(AppText.title, task.title, onTitleChange, fieldModifier)
     BasicField(AppText.description, task.description, onDescriptionChange, fieldModifier)
     BasicField(AppText.url, task.url, onUrlChange, fieldModifier)
+    BasicField(AppText.dueDate, task.dueDate, onDueDateChange, fieldModifier) // 新增字段
 
     Spacer(modifier = Modifier.spacer())
     CardEditors(task, onDateChange, onTimeChange, activity)
@@ -167,7 +170,8 @@ fun EditTaskScreenPreview() {
   val task = Task(
     title = "Task title",
     description = "Task description",
-    flag = true
+    flag = true,
+    dueDate = "2023-12-31"
   )
 
   MakeItSoTheme {
@@ -181,6 +185,7 @@ fun EditTaskScreenPreview() {
       onTimeChange = { _, _ -> },
       onPriorityChange = { },
       onFlagToggle = { },
+      onDueDateChange = {},
       activity = null
     )
   }

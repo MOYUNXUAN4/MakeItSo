@@ -34,6 +34,7 @@
     <string name="time">Time</string>
     <string name="flag">Flag</string>
     <string name="priority">Priority</string>
+    <string name="dueDate">dueDate</string>
 
     <!-- SettingsScreen -->
     <string name="settings">Settings</string>
