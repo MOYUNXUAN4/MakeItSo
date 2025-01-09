@@ -16,6 +16,7 @@ limitations under the License.
 
 package com.example.makeitso.model.service.impl
 
+import android.util.Log
 import com.example.makeitso.model.User
 import com.example.makeitso.model.service.AccountService
 import com.example.makeitso.model.service.trace
@@ -57,9 +58,11 @@ class AccountServiceImpl @Inject constructor(private val auth: FirebaseAuth) : A
     auth.signInAnonymously().await()
   }
 
-  override suspend fun linkAccount(email: String, password: String) {
-    //TODO
-  }
+  override suspend fun linkAccount(email: String, password: String): Unit =
+    trace(LINK_ACCOUNT_TRACE) {
+      val credential = EmailAuthProvider.getCredential(email, password)
+      auth.currentUser!!.linkWithCredential(credential).await()
+    }
 
   override suspend fun deleteAccount() {
     auth.currentUser!!.delete().await()

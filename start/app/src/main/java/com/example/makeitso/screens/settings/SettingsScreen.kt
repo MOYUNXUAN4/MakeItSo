@@ -24,14 +24,13 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.makeitso.R.drawable as AppIcon
 import com.example.makeitso.R.string as AppText
 import com.example.makeitso.common.composable.*
 import com.example.makeitso.common.ext.card
 import com.example.makeitso.common.ext.spacer
-import com.example.makeitso.theme.MakeItSoTheme
+import kotlinx.coroutines.flow.Flow
 
 @ExperimentalMaterialApi
 @Composable
@@ -40,8 +39,11 @@ fun SettingsScreen(
   openScreen: (String) -> Unit,
   viewModel: SettingsViewModel = hiltViewModel()
 ) {
+  // 将 Flow<SettingsUiState> 转换为 State<SettingsUiState>
+  val uiState by viewModel.uiState.collectAsState(initial = SettingsUiState(false))
+
   SettingsScreenContent(
-    uiState = viewModel.uiState,
+    uiState = uiState, // 传递 State<SettingsUiState> 而不是 Flow<SettingsUiState>
     onLoginClick = { viewModel.onLoginClick(openScreen) },
     onSignUpClick = { viewModel.onSignUpClick(openScreen) },
     onSignOutClick = { viewModel.onSignOutClick(restartApp) },
@@ -137,19 +139,4 @@ private fun DeleteMyAccountCard(deleteMyAccount: () -> Unit) {
   }
 }
 
-@Preview(showBackground = true)
-@ExperimentalMaterialApi
-@Composable
-fun SettingsScreenPreview() {
-  val uiState = SettingsUiState(isAnonymousAccount = false)
 
-  MakeItSoTheme {
-    SettingsScreenContent(
-      uiState = uiState,
-      onLoginClick = { },
-      onSignUpClick = { },
-      onSignOutClick = { },
-      onDeleteMyAccountClick = { }
-    )
-  }
-}
